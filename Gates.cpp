@@ -1,3 +1,28 @@
+// Lic:
+// Gates
+// Dupe searcher
+// 
+// 
+// 
+// (c) Jeroen P. Broks, 2024
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// Please note that some references to data like pictures or audio, do not automatically
+// fall under this licenses. Mostly this is noted in the respective files.
+// 
+// Version: 24.06.24
+// EndLic
 #include <SlyvQCol.hpp>
 #include <SlyvQuickHead.hpp>
 #include <SlyvVolumes.hpp>
@@ -64,7 +89,7 @@ shared_ptr<FileRec> FileRec::Obtain(std::string F) {
 bool FileRec::Compare(shared_ptr < FileRec > A, shared_ptr < FileRec > B) {
 	if (A->Size() != B->Size()) return false;
 	if (A->Size() == 0 && B->Size() == 0) return true;
-	if (A->Scanned() && B->Scanned() && A->CheckSum() != B->CheckSum()) return true;
+	if (A->Scanned() && B->Scanned() && A->CheckSum() != B->CheckSum()) return false;
 	QCol->Yellow("Comparing:\n\t");
 	QCol->Cyan(A->FileName());
 	QCol->LMagenta(" with: \n\t");
@@ -103,7 +128,7 @@ void FileRec::Results() {
 		default:QCol->LGreen(FR->FileName()); QCol->Yellow(" has "); QCol->Cyan(to_string(FR->Dupes()->size())); QCol->Yellow(" dupes\n"); break;
 		}
 		for (size_t i = 0; i < FR->Dupes()->size();++i) {
-			QCol->Cyan(TrSPrintF("%9d: ", i));
+			QCol->Cyan(TrSPrintF("%9d: ", i+1));
 			QCol->Yellow((*FR->Dupes())[i]);
 			QCol->Grey("\n");
 			Total++;
